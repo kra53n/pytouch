@@ -11,7 +11,7 @@ colors = [
     {"bg": 3,  "fg": 0,  "score": 1,},
     {"bg": 5,  "fg": 2,  "score": 3,},
     {"bg": 7,  "fg": 4,  "score": 5,},
-    {"bg": 11", fg": 8,  "score": 9,},
-    {"bg": 14", fg": 11, "score": 12,},
-    {"bg": 15", fg": 12, "score": 13,},
+    {"bg": 11, "fg": 8,  "score": 9,},
+    {"bg": 14, "fg": 11, "score": 12,},
+    {"bg": 15, "fg": 12, "score": 13,},
 ]

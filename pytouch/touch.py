@@ -2,6 +2,7 @@ from random import randint
 import pyxel
 
 from constants import Screen
+import cursors
 
 
 class Score:
@@ -59,6 +60,7 @@ class Circle:
 class ReachCircle(Circle):
     def __init__(self):
         super().__init__()
+        self.min_r = 10
         self.respawn()
 
     @property
@@ -70,7 +72,7 @@ class ReachCircle(Circle):
         return self._y
 
     def respawn(self):
-        self._r = randint(20, min(Screen.width, Screen.height) // 2) - 4
+        self._r = randint(self.min_r, min(Screen.width, Screen.height) // 2) - 4
         self._x = randint(self._r, Screen.width - self._r)
         self._y = randint(self._r, Screen.height - self._r)
 
@@ -126,6 +128,10 @@ class App:
         self.reach_circ.draw()
         self.circ.draw(pyxel.mouse_x, pyxel.mouse_y)
         self.score.draw()
+
+        # cursors.plus_sign(
+        #     pyxel.mouse_x, pyxel.mouse_y, [(Screen.bg - 10) % 16], 1
+        # )
 
 
 if __name__ == "__main__":
