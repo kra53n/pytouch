@@ -5,6 +5,25 @@ from constants import Screen
 import cursors
 
 
+class Text:
+    def __init__(self, text):
+        self._text = text
+
+        self._symbol_len = 3
+        self._padding_len = 1
+
+    def _count_text_len(self):
+        return (
+            self._symbol_len + self._padding_len
+        ) * len(self._text) - self._padding_len
+    
+    def _x_text_center_position(self):
+        return (Screen.width - self._count_text_len()) // 2
+
+    def draw(self):
+        pyxel.text(self._x_text_center_position(), 0, self._text, 2)
+
+
 class Score:
     def __init__(self, padding_right=2, padding_top=2):
         self.padding_right = padding_right
