@@ -54,6 +54,10 @@ class App:
 
 
     def _draw(self):
+        self.menu()
+        if not self.menu.buttons['play'].pressed:
+            return
+
         pyxel.cls(Screen.bg)
 
         self.circ.increase()

@@ -22,7 +22,7 @@ class Menu:
             return
 
         pyxel.cls(self.colors['bg'])
-        self.buttons['play'].draw()
+        self.buttons['play']()
 
 
 if __name__ == "__main__":
