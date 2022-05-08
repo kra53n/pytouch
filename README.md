@@ -1,1 +1,2 @@
-# pytouch -  Python touch game using Pyxel
+# pytouch
+pytouch -  Python touch game using Pyxel
