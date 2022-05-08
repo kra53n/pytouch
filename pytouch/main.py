@@ -3,6 +3,7 @@ from random import randrange
 import pyxel
 
 from constants import Screen
+from menu import Menu
 from elements import Text, Score, Circle, ReachCircle
 
 
@@ -14,6 +15,7 @@ class App:
         self.circ = Circle()
         self.score = Score()
         self.reach_circ = ReachCircle()
+        self.menu = Menu()
 
         pyxel.run(self._update, self._draw)
 

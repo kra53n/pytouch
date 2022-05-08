@@ -1,4 +1,6 @@
 from random import randint
+import itertools
+
 import pyxel
 
 from constants import Screen
@@ -6,22 +8,32 @@ import cursors
 
 
 class Text:
-    def __init__(self, text):
+    def __init__(self, text, x=None, y=None, col=2):
         self._text = text
+        self.x = x
+        self.y = y
+        self.col = col
 
-        self._symbol_len = 3
+        self._symbol_len_hori = 3
+        self._symbol_len_vert = 5
         self._padding_len = 1
 
-    def _count_text_len(self):
-        return (
-            self._symbol_len + self._padding_len
-        ) * len(self._text) - self._padding_len
+        self._process_coord()
     
-    def _x_text_center_position(self):
-        return (Screen.width - self._count_text_len()) // 2
+    def _text_wdt(self):
+        return (self._symbol_len_hori + self._padding_len) * len(self._text) - self._padding_len
 
+    def _process_coord(self):
+        if self.x == None:
+            self.x = (Screen.width - self._text_wdt()) // 2
+        if self.y == None:
+            self.y = (Screen.height - self._symbol_len_vert) // 2
+
+    def get_coords(self):
+        return (self.x, self.y), (self.x + self._text_wdt, self.y + self._symbol_len_vert)
+    
     def draw(self):
-        pyxel.text(self._x_text_center_position(), 0, self._text, 2)
+        pyxel.text(self.x, self.y, self._text, self.col)
 
 
 class Score:
@@ -39,6 +51,23 @@ class Score:
     def draw(self):
         pyxel.text(self._padding_right, self._padding_top,
                 f"Score: {self.score}", (Screen.bg - 2) % 16)
+
+
+class Button:
+    def __init__(self, text, bg_col, fg_col, w=None, h=None):
+        self.text = Text(text, None, 0, 7)
+
+    def _draw_figure(self):
+        pass
+        #for x, y in itertools.product():
+        #    pass
+    
+    def _process(self):
+        pass
+
+    def draw(self):
+        self._draw_figure()
+        self.text.draw()
 
 
 class Circle:
