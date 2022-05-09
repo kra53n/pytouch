@@ -16,11 +16,13 @@ class Menu:
 
     def update(self):
         if self.buttons['play'].pressed:
+            pyxel.mouse(False)
             self.buttons['play'].pressed = False
             self.is_drawing = False
         if self.buttons['exit'].pressed:
             pyxel.quit()
         if pyxel.btnp(pyxel.KEY_ESCAPE):
+            pyxel.mouse(True)
             self.is_drawing = True
 
     def draw(self):
