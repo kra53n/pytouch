@@ -49,7 +49,7 @@ class Score:
 
 class Button:
     def __init__(self, text, bg_col, fg_col, w=None, h=None):
-        self.text = Text(text, None, None, 7)
+        self.text = Text(text, w, h, 7)
         self.pressed = False
 
         # self.arrow_state = None

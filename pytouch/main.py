@@ -9,25 +9,18 @@ from elements import Text, Score, Circle, ReachCircle
 
 class App:
     def __init__(self):
-        pyxel.init(Screen.width, Screen.height)
+        pyxel.init(Screen.width, Screen.height, quit_key=False)
         pyxel.mouse(True)
 
+        self.menu = Menu()
         self.circ = Circle()
         self.score = Score()
         self.reach_circ = ReachCircle()
-        self.menu = Menu()
 
         pyxel.run(self._update, self._draw)
 
-    def _hit_checking(self):
-        if abs(self.reach_circ.x - pyxel.mouse_x) < 20 and \
-           abs(self.reach_circ.y - pyxel.mouse_y) < 20 and \
-           abs(self.reach_circ.r - self.circ.r) < 20:
-            return True
-
     def _update(self):
-        if pyxel.btnp(pyxel.KEY_Q):
-            pyxel.quit()
+        self.menu.update()
 
         # NOTE: delete code below
         # helps to check the colors 
@@ -49,11 +42,9 @@ class App:
 
         self.circ.r += 1
 
-
-
     def _draw(self):
-        self.menu()
-        if not self.menu.buttons['play'].pressed:
+        if self.menu.is_drawing:
+            self.menu.draw()
             return
 
         pyxel.cls(Screen.bg)
