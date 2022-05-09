@@ -34,23 +34,21 @@ class App:
         if pyxel.btnp(pyxel.KEY_C):
             with open('colors.txt', 'a') as f:
                 f.writelines(f"bg: {Screen.bg}\tfg: {(Screen.bg -3) % 16}\t"
-                        "score: {(Screen.bg - 2) % 16}\n")
+                             f"score: {(Screen.bg - 2) % 16}\n")
 
-        if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT) or \
-           pyxel.btnp(pyxel.KEY_SPACE):
-            #self.circ.col = (Screen.bg - 3) % 16
-            #self.reach_circ.col = (Screen.bg - 3) % 16
-            #Screen.bg = (Screen.bg + 1) % 16
+        if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT) or pyxel.btnp(pyxel.KEY_SPACE):
+            if (self.reach_circ.is_collided_with_circ(self.circ)):
+                self.score.score += 1
+
             self.circ.col = randrange(16)
             self.reach_circ.col = randrange(16)
             Screen.bg = randrange(16)
 
             self.reach_circ.respawn()
+            self.circ.r = 0
 
-            if self._hit_checking():
-                self.score.increase()
+        self.circ.r += 1
 
-            self.circ.zero()
 
 
     def _draw(self):
@@ -60,7 +58,6 @@ class App:
 
         pyxel.cls(Screen.bg)
 
-        self.circ.increase()
         self.reach_circ.draw()
         self.circ.draw(pyxel.mouse_x, pyxel.mouse_y)
         self.score.draw()

@@ -3,7 +3,7 @@ import itertools
 
 import pyxel
 
-from constants import Screen
+from constants import Screen, GAP_BETWEEN_RADII
 import cursors
 
 
@@ -41,12 +41,6 @@ class Score:
         self._padding_right = padding_right
         self._padding_top = padding_top
         self.score = 0
-
-    def increase(self):
-        self.score += 1
-
-    def reduce(self):
-        self.score -= 1
 
     def draw(self):
         pyxel.text(self._padding_right, self._padding_top,
@@ -107,33 +101,18 @@ class Button:
 
 class Circle:
     def __init__(self):
-        self._r   = 0
-        self._col = (Screen.bg - 1) % 16
-
-    def zero(self):
-        self._r = 0
+        self.r   = 0
+        self.col = (Screen.bg - 1) % 16
+        self.x = 0
+        self.y = 0
 
     def increase(self, size=1):
-        self._r += size
+        self.r += size
 
-    @property
-    def r(self):
-        return self._r
-
-    @r.setter
-    def r(self, r):
-        self._r = r
-
-    @property
-    def col(self):
-        return self._col
-
-    @col.setter
-    def col(self, color):
-        self._col = color
-    
     def draw(self, x, y):
-        pyxel.circ(x, y, self._r, self._col)
+        self.x = x
+        self.y = y
+        pyxel.circ(self.x, self.y, self.r, self.col)
 
 
 class ReachCircle(Circle):
@@ -142,18 +121,18 @@ class ReachCircle(Circle):
         self.min_r = 10
         self.respawn()
 
-    @property
-    def x(self):
-        return self._x
+    def is_collided_with_circ(self, circ: Circle):
+        x = abs(self.x - circ.x)
+        y = abs(self.y - circ.y)
 
-    @property
-    def y(self):
-        return self._y
+        return self.x - x + self.r <= circ.x - x + circ.r + GAP_BETWEEN_RADII \
+            and self.y - y + self.r <= circ.y - y + circ.r + GAP_BETWEEN_RADII \
+            and abs(self.r - circ.r) <= GAP_BETWEEN_RADII
 
     def respawn(self):
-        self._x = randint(self._r, Screen.width - self._r)
-        self._y = randint(self._r, Screen.height - self._r)
-        self._r = randint(self.min_r, min(Screen.width, Screen.height) // 2) - 4
+        self.x = randint(self.r, Screen.width - self.r)
+        self.y = randint(self.r, Screen.height - self.r)
+        self.r = randint(self.min_r, min(Screen.width, Screen.height) // 2) - 4
 
     def draw(self):
-        pyxel.circb(self._x, self._y, self._r, self._col)
+        pyxel.circb(self.x, self.y, self.r, self.col)

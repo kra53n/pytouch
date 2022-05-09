@@ -1,3 +1,6 @@
+GAP_BETWEEN_RADII = 5
+
+
 class Screen:
     width = 192
     height = 108
