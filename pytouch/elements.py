@@ -125,9 +125,9 @@ class ReachCircle(Circle):
         x = abs(self.x - circ.x)
         y = abs(self.y - circ.y)
 
-        return self.x - x + self.r <= circ.x - x + circ.r + GAP_BETWEEN_RADII \
-               and self.y - y + self.r <= circ.y - y + circ.r + GAP_BETWEEN_RADII \
-               and abs(self.r - circ.r) <= GAP_BETWEEN_RADII
+        return self.x - x + self.r <= circ.x - x + circ.r + GAP_BETWEEN_RADII and \
+            self.y - y + self.r <= circ.y - y + circ.r + GAP_BETWEEN_RADII and \
+            abs(self.r - circ.r) <= GAP_BETWEEN_RADII
 
     def respawn(self):
         self.x = randint(self.r, Screen.width - self.r)

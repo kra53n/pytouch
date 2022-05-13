@@ -16,7 +16,6 @@ class State(Enum):
     SETTINGS = 3
 
 
-
 colors = [
     {"bg": 0,  "fg": 13, "score": 14,},
     {"bg": 1,  "fg": 14, "score": 15,},
