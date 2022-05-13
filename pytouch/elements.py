@@ -19,19 +19,19 @@ class Text:
         self._padding_len = 1
 
         self._process_coord()
-    
+
     def text_wdt(self):
         return (self.symbol_len_hori + self._padding_len) * len(self._text) - self._padding_len
 
     def _process_coord(self):
-        if self.x == None:
+        if self.x is None:
             self.x = (Screen.width - self.text_wdt()) // 2
-        if self.y == None:
+        if self.y is None:
             self.y = (Screen.height - self.symbol_len_vert) // 2
 
     def get_coords(self):
         return (self.x, self.y), (self.x + self.text_wdt(), self.y + self.symbol_len_vert)
-    
+
     def draw(self):
         pyxel.text(self.x, self.y, self._text, self.col)
 
@@ -44,7 +44,7 @@ class Score:
 
     def draw(self):
         pyxel.text(self._padding_right, self._padding_top,
-                f"Score: {self.score}", (Screen.bg - 2) % 16)
+                   f"Score: {self.score}", (Screen.bg - 2) % 16)
 
 
 class Button:
@@ -101,7 +101,7 @@ class Button:
 
 class Circle:
     def __init__(self):
-        self.r   = 0
+        self.r = 0
         self.col = (Screen.bg - 1) % 16
         self.x = 0
         self.y = 0
@@ -126,8 +126,8 @@ class ReachCircle(Circle):
         y = abs(self.y - circ.y)
 
         return self.x - x + self.r <= circ.x - x + circ.r + GAP_BETWEEN_RADII \
-            and self.y - y + self.r <= circ.y - y + circ.r + GAP_BETWEEN_RADII \
-            and abs(self.r - circ.r) <= GAP_BETWEEN_RADII
+               and self.y - y + self.r <= circ.y - y + circ.r + GAP_BETWEEN_RADII \
+               and abs(self.r - circ.r) <= GAP_BETWEEN_RADII
 
     def respawn(self):
         self.x = randint(self.r, Screen.width - self.r)
