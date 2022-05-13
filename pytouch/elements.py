@@ -52,13 +52,6 @@ class Button:
         self.text = Text(text, w, h, 7)
         self.pressed = False
 
-        self.arrow_state = None
-        self.arrow = (
-            '000 000 100 000 000',
-            '000 100 010 100 000',
-            '100 010 001 010 100',
-        )
-
     def __call__(self):
         self._process()
         self._draw()
