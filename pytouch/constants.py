@@ -3,6 +3,11 @@ from enum import Enum
 
 GAP_BETWEEN_RADII = 5
 
+# size of text letter drawing by pyxel.text()
+LETTER_HGT = 5
+LETTER_WDT = 3
+LETTER_SPACE = 1
+
 
 class Screen:
     width = 192

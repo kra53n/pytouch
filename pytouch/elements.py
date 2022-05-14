@@ -3,8 +3,8 @@ import itertools
 
 import pyxel
 
-from constants import Screen, GAP_BETWEEN_RADII
-import cursors
+from constants import (Screen, GAP_BETWEEN_RADII, LETTER_WDT,
+                       LETTER_HGT, LETTER_SPACE)
 
 
 class Text:
@@ -14,23 +14,19 @@ class Text:
         self.y = y
         self.col = col
 
-        self.symbol_len_hori = 3
-        self.symbol_len_vert = 5
-        self._padding_len = 1
-
         self._process_coord()
 
     def text_wdt(self):
-        return (self.symbol_len_hori + self._padding_len) * len(self._text) - self._padding_len
+        return (LETTER_WDT + LETTER_SPACE) * len(self._text) - LETTER_SPACE
 
     def _process_coord(self):
         if self.x is None:
             self.x = (Screen.width - self.text_wdt()) // 2
         if self.y is None:
-            self.y = (Screen.height - self.symbol_len_vert) // 2
+            self.y = (Screen.height - LETTER_HGT) // 2
 
     def get_coords(self):
-        return (self.x, self.y), (self.x + self.text_wdt(), self.y + self.symbol_len_vert)
+        return (self.x, self.y), (self.x + self.text_wdt(), self.y + LETTER_HGT)
 
     def draw(self):
         pyxel.text(self.x, self.y, self._text, self.col)
@@ -71,7 +67,7 @@ class Button:
 
     def _process(self):
         x, y = self._text.x, self._text.y
-        w, h = self._text.text_wdt(), self._text.symbol_len_vert
+        w, h = self._text.text_wdt(), LETTER_HGT
 
         if not (x <= pyxel.mouse_x <= x + w):
             return
