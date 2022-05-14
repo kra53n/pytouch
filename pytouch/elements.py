@@ -49,16 +49,29 @@ class Score:
 
 class Button:
     def __init__(self, text, bg_col, fg_col, w=None, h=None):
-        self.text = Text(text, w, h, 7)
+        self.w = w
+        self.h = h
+        self.bg_col = bg_col
+        self.fg_col = fg_col
+
+        self._text = Text(text, self.w, self.h, self.fg_col)
         self.pressed = False
+
+    @property
+    def text(self):
+        return self._text
+
+    @text.setter
+    def text(self):
+        self._text = Text(text, self.w, self.h, self.fg_col)
 
     def __call__(self):
         self._process()
         self._draw()
 
     def _process(self):
-        x, y = self.text.x, self.text.y
-        w, h = self.text.text_wdt(), self.text.symbol_len_vert
+        x, y = self._text.x, self._text.y
+        w, h = self._text.text_wdt(), self._text.symbol_len_vert
 
         if not (x <= pyxel.mouse_x <= x + w):
             return
@@ -67,11 +80,11 @@ class Button:
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
             self.pressed = True
 
-        self.text.col = 3
+        self._text.col = (self.fg_col - 4) % 16
 
     def _draw(self):
-        self.text.draw()
-        self.text.col = 7
+        self._text.draw()
+        self._text.col = self.fg_col
 
 
 class Circle:

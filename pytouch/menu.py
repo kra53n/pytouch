@@ -6,7 +6,7 @@ from elements import Button
 
 class Menu:
     def __init__(self):
-        self.colors = {"bg": 1, "fg": 2}
+        self.colors = {"bg": 1, "fg": 7}
         self.buttons = {
             "play": Button('Play', self.colors['bg'], self.colors['fg'], None, 30),
             "settings": Button('Settings', self.colors['bg'], self.colors['fg'], None, 50),
