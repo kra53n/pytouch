@@ -18,6 +18,7 @@ class Menu:
             game_obj.state = State.PLAY
             pyxel.mouse(False)
             self.buttons['play'].pressed = False
+            self.buttons['play'].text = 'Continue'
 
         if self.buttons['exit'].pressed:
             pyxel.quit()

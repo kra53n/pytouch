@@ -62,7 +62,7 @@ class Button:
         return self._text
 
     @text.setter
-    def text(self):
+    def text(self, text):
         self._text = Text(text, self.w, self.h, self.fg_col)
 
     def __call__(self):
