@@ -1,16 +1,16 @@
 import pyxel
 
 from constants import State
-from elements import Button
+from elements import ButtonWithArrow
 
 
 class Menu:
     def __init__(self):
         self.colors = {"bg": 1, "fg": 7}
         self.buttons = {
-            "play": Button('Play', self.colors['bg'], self.colors['fg'], None, 30),
-            "settings": Button('Settings', self.colors['bg'], self.colors['fg'], None, 50),
-            "exit": Button('Exit', self.colors['bg'], self.colors['fg'], None, 70),
+            "play": ButtonWithArrow('Play', self.colors['bg'], self.colors['fg'], None, 30),
+            "settings": ButtonWithArrow('Settings', self.colors['bg'], self.colors['fg'], None, 50),
+            "exit": ButtonWithArrow('Exit', self.colors['bg'], self.colors['fg'], None, 70),
         }
 
     def update(self, game_obj):
@@ -19,6 +19,7 @@ class Menu:
             pyxel.mouse(False)
             self.buttons['play'].pressed = False
             self.buttons['play'].text = 'Continue'
+            self.buttons['play'].x = self.buttons['play'].text.x
 
         if self.buttons['exit'].pressed:
             pyxel.quit()

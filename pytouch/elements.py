@@ -83,6 +83,40 @@ class Button:
         self._text.col = self.fg_col
 
 
+class ButtonWithArrow(Button):
+    def __init__(self, text, bg_col, fg_col, w=None, h=None):
+        super().__init__(text, bg_col, fg_col, w, h)
+
+        self.x = self._text.x
+        self.y = self._text.y
+
+        self.arrow = '10001 01010 00100'.split()
+        self.frame = 0
+        self.max_frame = len(self.arrow)
+
+    def _process_frames(self):
+        if not pyxel.frame_count % 3:
+            self.frame = (self.frame + 1) % self.max_frame
+
+    def _process_arrow(self):
+        x = self.x
+        y = self.y
+        to_draw = self.arrow[:self.frame+1]
+        self._text.x = self.x + len(to_draw) + (1 if to_draw else 0)
+
+        for row, col in enumerate(to_draw):
+            for p_idx, p in enumerate(col):
+                if p == '0':
+                    continue
+                pyxel.pset(row + x, p_idx + y, self.fg_col)
+
+    def _draw(self):
+        self._text.draw()
+        self._process_arrow()
+        self._process_frames()
+        self._text.col = self.fg_col
+
+
 class Circle:
     def __init__(self):
         self.r = 0
