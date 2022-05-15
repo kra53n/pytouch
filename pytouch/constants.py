@@ -3,7 +3,7 @@ from enum import Enum
 
 GAP_BETWEEN_RADII = 5
 
-# size of text letter drawing by pyxel.text()
+# size of symbol drawing by pyxel.text()
 SYMBOL_HGT = 5
 SYMBOL_WDT = 3
 SYMBOL_SPACE = 1
