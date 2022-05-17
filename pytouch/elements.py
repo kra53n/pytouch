@@ -52,6 +52,7 @@ class Button:
 
         self._text = Text(text, self.w, self.h, self.fg_col)
         self.pressed = False
+        self.hovered = False
 
     @property
     def text(self):
@@ -61,21 +62,20 @@ class Button:
     def text(self, text):
         self._text = Text(text, self.w, self.h, self.fg_col)
 
+    def is_hovered(self):
+        x, y = self._text.x, self._text.y
+        w, h = self._text.text_wdt(), SYMBOL_HGT
+
+        return x <= pyxel.mouse_x <= x + w and y <= pyxel.mouse_y <= y + h
+
     def __call__(self):
         self._process()
         self._draw()
 
     def _process(self):
-        x, y = self._text.x, self._text.y
-        w, h = self._text.text_wdt(), SYMBOL_HGT
-
-        if not (x <= pyxel.mouse_x <= x + w):
+        if not self.is_hovered():
             return
-        if not (y <= pyxel.mouse_y <= y + h):
-            return
-        if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
-            self.pressed = True
-
+        self.pressed = pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT)
         self._text.col = (self.fg_col - 4) % 16
 
     def _draw(self):
