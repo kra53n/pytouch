@@ -65,7 +65,6 @@ class Button:
     def is_hovered(self):
         x, y = self._text.x, self._text.y
         w, h = self._text.text_wdt(), SYMBOL_HGT
-
         return x <= pyxel.mouse_x <= x + w and y <= pyxel.mouse_y <= y + h
 
     def __call__(self):
@@ -94,9 +93,19 @@ class ButtonWithArrow(Button):
         self.frame = 0
         self.max_frame = len(self.arrow)
 
+    def is_hovered(self):
+        x, y = self._text.x, self._text.y
+        w, h = self._text.text_wdt(), SYMBOL_HGT
+
+        x -= self.frame + 1
+
+        return x <= pyxel.mouse_x <= x + w and y <= pyxel.mouse_y <= y + h
+
     def _process_frames(self):
-        if not pyxel.frame_count % 3:
-            self.frame = (self.frame + 1) % self.max_frame
+        if self.is_hovered():
+            self.frame = self.frame + 1 if self.frame < self.max_frame else self.frame
+        else:
+            self.frame = self.frame - 1 if self.frame + 1 else self.frame
 
     def _process_arrow(self):
         x = self.x
