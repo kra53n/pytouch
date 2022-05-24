@@ -108,9 +108,13 @@ class ButtonWithArrow(Button):
             self.frame = self.frame - 1 if self.frame + 1 else self.frame
 
     def _process_arrow(self):
+        # arrow coords
         x = self.x
         y = self.y
+
         to_draw = self.arrow[:self.frame+1]
+
+        # move text from arrow to right side
         self._text.x = self.x + len(to_draw) + (1 if to_draw else 0)
 
         for row, col in enumerate(to_draw):
