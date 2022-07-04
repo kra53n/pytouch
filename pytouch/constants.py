@@ -9,6 +9,7 @@ SYMBOL_WDT = 3
 SYMBOL_SPACE = 1
 
 
+# NOTE: use named tuple
 class Screen:
     width = 192
     height = 108
@@ -19,4 +20,3 @@ class State(Enum):
     MENU = 1
     PLAY = 2
     SETTINGS = 3
-
