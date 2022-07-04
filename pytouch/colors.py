@@ -23,7 +23,7 @@ def load_filename() -> str:
 
 
 def is_filename_exists(filename: str) -> bool:
-    return (COLORS_PATH / filename).exists()
+    return filename != '' and (COLORS_PATH / filename).exists()
 
 
 def load_user_colors(filename: str) -> Sequence[ColorsPalette]:
