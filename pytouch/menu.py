@@ -11,17 +11,6 @@ class Menu:
         self.buttons = construct_buttons_in_center(
             ButtonWithArrow, ('play', 'settings', 'exit'), 14, 15)
 
-    def _init_buttons(self):
-        buttons = ('play', 'settings', 'exit')
-
-        padding = MENU_BUTTONS_PADDING + SYMBOL_HGT
-        buttons_block = len(buttons) * padding - MENU_BUTTONS_PADDING
-        ys = count((Screen.height - buttons_block) // 2, padding)
-
-        for button, y in zip(buttons, ys):
-            self.buttons[button] = ButtonWithArrow(button.capitalize(),
-                    self.colors['bg'], self.colors['fg'], None, y)
-
     def update(self, game_obj):
         if self.buttons['play'].pressed:
             game_obj.state = State.PLAY
