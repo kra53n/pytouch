@@ -5,6 +5,7 @@ import pyxel as px
 from elements import Score, Circle, ReachCircle
 from constants import Screen, State
 from colors import select_colors
+from settings import Settings
 from menu import Menu
 
 
@@ -14,8 +15,11 @@ class Game:
         px.init(Screen.width, Screen.height, quit_key=False)
         px.mouse(True)
 
+        self._init_colors()
+
         self.state = State.MENU
         self.menu = Menu()
+        self.settings = Settings()
         self.colors = select_colors()
         self.circ = Circle()
         self.reach_circ = ReachCircle()
@@ -23,9 +27,14 @@ class Game:
 
         px.run(self._update, self._draw)
 
+    def _init_colors(self):
+        px.colors[14] = px.colors[1]
+        px.colors[15] = px.colors[7]
+
     def _process_keys(self):
         if px.btnp(px.KEY_ESCAPE):
             self.state = State.MENU
+            px.mouse(True)
 
         if px.btnp(px.MOUSE_BUTTON_LEFT) or px.btnp(px.KEY_SPACE):
             if self.reach_circ.is_collided_with_circ(self.circ):
@@ -64,6 +73,9 @@ class Game:
                 self.reach_circ.draw()
                 self.circ.draw(px.mouse_x, px.mouse_y)
                 self.score.draw()
+            case State.SETTINGS:
+                self.settings.process()
+                self.settings.draw()
 
 
 if __name__ == '__main__':

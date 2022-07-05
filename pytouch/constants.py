@@ -8,6 +8,8 @@ SYMBOL_HGT = 5
 SYMBOL_WDT = 3
 SYMBOL_SPACE = 1
 
+MENU_BUTTONS_PADDING = 15
+
 
 # NOTE: use named tuple
 class Screen:

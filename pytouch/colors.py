@@ -1,6 +1,7 @@
 from collections import namedtuple
 from typing import Sequence
 from pathlib import Path
+from os import listdir
 import pickle
 import yaml
 
@@ -13,6 +14,10 @@ DEFUALT_COLORS = (
 )
 
 COLORS_PATH = Path(__file__).parent / 'config'
+
+
+def get_filenames() -> tuple:
+    return ('defalut', *tuple(fn[:-5] for fn in sorted(listdir(COLORS_PATH)) if '.yaml' in fn))
 
 
 def load_filename() -> str:
@@ -28,7 +33,10 @@ def is_filename_exists(filename: str) -> bool:
 
 def load_user_colors(filename: str) -> Sequence[ColorsPalette]:
     data = yaml.safe_load((COLORS_PATH / filename).read_text())
-    return tuple(ColorsPalette(colors['bg'], colors['user_circ'], colors['reach_circ']) for colors in data)
+    try:
+        return tuple(ColorsPalette(colors['bg'], colors['user_circ'], colors['reach_circ']) for colors in data)
+    except KeyError:
+        raise KeyError(f'{filename} file reading error!')
 
 
 def select_colors() -> Sequence[ColorsPalette]:
