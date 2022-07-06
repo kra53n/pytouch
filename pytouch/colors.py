@@ -10,7 +10,8 @@ ColorsPalette = namedtuple('ColorsPalette', 'bg user_circ reach_circ')
 
 DEFUALT_COLORS = (
     ColorsPalette(0x121922, 0X7BA5EC, 0xE5EDF3),
-    ColorsPalette(0x12FF22, 0X7EE5EC, 0xECCDF3),
+    ColorsPalette(0xF5A8CA, 0xE7C8E7, 0xEAF3FC),
+    ColorsPalette(0x0A1624, 0x112886, 0x83D2BB),
 )
 
 COLORS_PATH = Path(__file__).parent / 'config'
@@ -34,7 +35,13 @@ def is_filename_exists(filename: str) -> bool:
 def load_user_colors(filename: str) -> Sequence[ColorsPalette]:
     data = yaml.safe_load((COLORS_PATH / filename).read_text())
     try:
-        return tuple(ColorsPalette(colors['bg'], colors['user_circ'], colors['reach_circ']) for colors in data)
+        return tuple(
+            ColorsPalette(
+                *map(lambda color: eval(f'0x{color}'),
+                    (colors['bg'], colors['user_circ'], colors['reach_circ'])
+                )
+            )
+            for colors in data)
     except KeyError:
         raise KeyError(f'{filename} file reading error!')
 
@@ -44,4 +51,3 @@ def select_colors() -> Sequence[ColorsPalette]:
     if is_filename_exists(filename):
         return load_user_colors(filename)
     return DEFUALT_COLORS
-

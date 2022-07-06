@@ -160,7 +160,7 @@ class OptionChooser(Text):
 class Circle:
     def __init__(self):
         self.r = 0
-        self.col = (Screen.bg - 1) % 16
+        self.col = 2
         self.x = 0
         self.y = 0
 
@@ -176,6 +176,7 @@ class Circle:
 class ReachCircle(Circle):
     def __init__(self):
         super().__init__()
+        self.col = 1
         self.min_r = 10
         self.respawn()
 
