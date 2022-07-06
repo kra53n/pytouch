@@ -3,7 +3,7 @@ from random import choice
 import pyxel as px
 
 from elements import Score, Circle, ReachCircle
-from constants import Screen, State
+from constants import Screen, State, ColorIndexes
 from colors import select_colors, DEFUALT_COLORS
 from settings import Settings
 from menu import Menu
@@ -23,7 +23,7 @@ class Game:
         self.menu = Menu()
         self.settings = Settings()
         self.colors = select_colors()
-        self.circ = Circle()
+        self.user_circ = Circle()
         self.reach_circ = ReachCircle()
         self.score = Score()
 
@@ -34,9 +34,9 @@ class Game:
         px.colors[15] = px.colors[7]
 
     def _update_colors(self):
-        px.colors[0] = self.colors[self.current_color].bg
-        px.colors[1] = self.colors[self.current_color].user_circ
-        px.colors[2] = self.colors[self.current_color].reach_circ
+        objs = ('bg', 'user_circ', 'reach_circ')
+        for obj in objs:
+            exec(f'px.colors[ColorIndexes.{obj}] = self.colors[self.current_color].{obj}')
         self.current_color = choice(tuple(filter(lambda color: color != self.current_color, range(len(self.colors)))))
 
     def _process_keys(self):
@@ -45,17 +45,17 @@ class Game:
             px.mouse(True)
 
         if px.btnp(px.MOUSE_BUTTON_LEFT) or px.btnp(px.KEY_SPACE):
-            if self.reach_circ.is_collided_with_circ(self.circ):
+            if self.reach_circ.is_collided_with_circ(self.user_circ):
                 self.score.score += 1
 
             self._update_colors()
             self.reach_circ.respawn()
-            self.circ.r = 0
+            self.user_circ.r = 0
 
     def _update(self):
         self.menu.update(self)
         self._process_keys()
-        self.circ.r += 1
+        self.user_circ.r += 1
 
     def _draw(self):
         match self.state:
@@ -64,7 +64,7 @@ class Game:
             case State.PLAY:
                 px.cls(Screen.bg)
                 self.reach_circ.draw()
-                self.circ.draw(px.mouse_x, px.mouse_y)
+                self.user_circ.draw(px.mouse_x, px.mouse_y)
                 self.score.draw()
             case State.SETTINGS:
                 self.settings.process()

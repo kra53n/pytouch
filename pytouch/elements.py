@@ -4,7 +4,8 @@ import itertools
 import pyxel as px
 
 from constants import (Screen, GAP_BETWEEN_RADII, SYMBOL_WDT,
-                       SYMBOL_HGT, SYMBOL_SPACE, MENU_BUTTONS_PADDING)
+                       SYMBOL_HGT, SYMBOL_SPACE, MENU_BUTTONS_PADDING,
+                       ColorIndexes)
 
 
 class Text:
@@ -160,7 +161,7 @@ class OptionChooser(Text):
 class Circle:
     def __init__(self):
         self.r = 0
-        self.col = 2
+        self.col = ColorIndexes.user_circ
         self.x = 0
         self.y = 0
 
@@ -176,7 +177,7 @@ class Circle:
 class ReachCircle(Circle):
     def __init__(self):
         super().__init__()
-        self.col = 1
+        self.col = ColorIndexes.reach_circ
         self.min_r = 10
         self.respawn()
 

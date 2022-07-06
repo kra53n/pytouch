@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from enum import Enum
 
 
@@ -9,6 +10,12 @@ SYMBOL_WDT = 3
 SYMBOL_SPACE = 1
 
 MENU_BUTTONS_PADDING = 15
+
+@dataclass
+class ColorIndexes:
+    bg = 0
+    user_circ = 2
+    reach_circ = 3
 
 
 # NOTE: use named tuple

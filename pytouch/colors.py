@@ -9,9 +9,11 @@ import yaml
 ColorsPalette = namedtuple('ColorsPalette', 'bg user_circ reach_circ')
 
 DEFUALT_COLORS = (
-    ColorsPalette(0x121922, 0X7BA5EC, 0xE5EDF3),
-    ColorsPalette(0xF5A8CA, 0xE7C8E7, 0xEAF3FC),
-    ColorsPalette(0x0A1624, 0x112886, 0x83D2BB),
+    ColorsPalette(0xE5EDF3, 0x121922, 0x121922),
+    ColorsPalette(0xFFFFFF, 0x121922, 0x121922),
+    ColorsPalette(0xF5A8CA, 0xEAF3FC, 0xEAF3FC),
+    ColorsPalette(0xF5A8CA, 0xE7C8E7, 0xE7C8E7),
+    ColorsPalette(0x83D2BB, 0x0A1624, 0x0A1624),
 )
 
 COLORS_PATH = Path(__file__).parent / 'config'
