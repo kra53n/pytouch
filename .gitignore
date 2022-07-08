@@ -1,3 +1,4 @@
 __pycache__/
+pytouch/data/
 
 pytouch/config/*.yaml

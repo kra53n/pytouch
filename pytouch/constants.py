@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from pathlib import Path
 from enum import Enum
 
 
@@ -10,6 +11,9 @@ SYMBOL_WDT = 3
 SYMBOL_SPACE = 1
 
 MENU_BUTTONS_PADDING = 15
+
+COLORS_PATH = Path(__file__).parent / 'config'
+DATA_PATH = Path(__file__).parent / 'data'
 
 @dataclass
 class ColorIndexes:

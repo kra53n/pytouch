@@ -3,6 +3,7 @@ import pyxel as px
 
 from constants import State, Screen, SYMBOL_HGT, MENU_BUTTONS_PADDING
 from elements import ButtonWithArrow, construct_buttons_in_center
+from colors import write_user_colors
 
 
 class Menu:
@@ -22,6 +23,7 @@ class Menu:
             game_obj.state = State.SETTINGS
             self.buttons['settings'].pressed = False
         elif self.buttons['exit'].pressed:
+            write_user_colors(f'{game_obj.settings.color_chooser.get_option()}.yaml')
             px.quit()
 
     def draw(self):

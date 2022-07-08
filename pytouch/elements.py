@@ -153,9 +153,12 @@ class OptionChooser(Text):
             if self.current_opt > self.opts_len - 1:
                 self.current_opt = self.opts_len - 1
 
+    def get_option(self) -> str:
+        return self.opts[self.current_opt]
+
     def draw(self):
         px.text(self.x, self.y, self._text, self.col)
-        px.text(self.x + self.get_wdt(), self.y, self.opts[self.current_opt], self.opt_col)
+        px.text(self.x + self.get_wdt(), self.y, self.get_option(), self.opt_col)
 
 
 class Circle:

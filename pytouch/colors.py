@@ -5,10 +5,12 @@ from os import listdir
 import pickle
 import yaml
 
+from constants import COLORS_PATH, DATA_PATH
+
 
 ColorsPalette = namedtuple('ColorsPalette', 'bg user_circ reach_circ')
 
-DEFUALT_COLORS = (
+DEFAULT_COLORS = (
     ColorsPalette(0xE5EDF3, 0x121922, 0x121922),
     ColorsPalette(0xFFFFFF, 0x121922, 0x121922),
     ColorsPalette(0xF5A8CA, 0xEAF3FC, 0xEAF3FC),
@@ -16,15 +18,13 @@ DEFUALT_COLORS = (
     ColorsPalette(0x83D2BB, 0x0A1624, 0x0A1624),
 )
 
-COLORS_PATH = Path(__file__).parent / 'config'
-
 
 def get_filenames() -> tuple:
-    return ('defalut', *tuple(fn[:-5] for fn in sorted(listdir(COLORS_PATH)) if '.yaml' in fn))
+    return tuple(fn[:-5] for fn in sorted(listdir(COLORS_PATH)) if '.yaml' in fn)
 
 
 def load_filename() -> str:
-    path = Path('assets/colors.bin')
+    path = DATA_PATH / 'colors.bin'
     if not path.exists():
         return ''
     return pickle.loads(path.read_bytes())
@@ -35,6 +35,9 @@ def is_filename_exists(filename: str) -> bool:
 
 
 def load_user_colors(filename: str) -> Sequence[ColorsPalette]:
+    if 'default.yaml':
+        return DEFAULT_COLORS
+
     data = yaml.safe_load((COLORS_PATH / filename).read_text())
     try:
         return tuple(
@@ -52,4 +55,10 @@ def select_colors() -> Sequence[ColorsPalette]:
     filename = load_filename()
     if is_filename_exists(filename):
         return load_user_colors(filename)
-    return DEFUALT_COLORS
+    return DEFAULT_COLORS
+
+
+def write_user_colors(filename: str):
+    if not DATA_PATH.is_dir():
+        DATA_PATH.mkdir()
+    (DATA_PATH / 'colors.bin').write_bytes(pickle.dumps(filename))

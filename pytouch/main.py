@@ -4,7 +4,7 @@ import pyxel as px
 
 from elements import Score, Circle, ReachCircle
 from constants import Screen, State, ColorIndexes
-from colors import select_colors, DEFUALT_COLORS
+from colors import select_colors, load_user_colors
 from settings import Settings
 from menu import Menu
 
@@ -16,13 +16,12 @@ class Game:
         px.mouse(True)
 
         self._init_colors()
-        self.colors = DEFUALT_COLORS
+        self.colors = select_colors()
         self.current_color = 0
 
         self.state = State.MENU
         self.menu = Menu()
         self.settings = Settings()
-        self.colors = select_colors()
         self.user_circ = Circle()
         self.reach_circ = ReachCircle()
         self.score = Score()
@@ -41,6 +40,11 @@ class Game:
 
     def _process_keys(self):
         if px.btnp(px.KEY_ESCAPE):
+            match self.state:
+                case State.SETTINGS:
+                    filename = self.settings.color_chooser.get_option()
+                    self.current_color = 0
+                    self.colors = load_user_colors(f'{filename}.yaml')
             self.state = State.MENU
             px.mouse(True)
 
