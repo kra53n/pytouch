@@ -1,11 +1,14 @@
 from collections import namedtuple
 from typing import Sequence
+from random import choice
 from pathlib import Path
 from os import listdir
 import pickle
 import yaml
 
-from constants import COLORS_PATH, DATA_PATH
+import pyxel as px
+
+from constants import COLORS_PATH, DATA_PATH, ColorIndexes
 
 
 ColorsPalette = namedtuple('ColorsPalette', 'bg user_circ reach_circ')
@@ -20,7 +23,7 @@ DEFAULT_COLORS = (
 
 
 def get_filenames() -> tuple:
-    return tuple(fn[:-5] for fn in sorted(listdir(COLORS_PATH)) if '.yaml' in fn)
+    return ('default', *tuple(fn[:-5] for fn in sorted(listdir(COLORS_PATH)) if '.yaml' in fn))
 
 
 def load_filename() -> str:
@@ -62,3 +65,28 @@ def write_user_colors(filename: str):
     if not DATA_PATH.is_dir():
         DATA_PATH.mkdir()
     (DATA_PATH / 'colors.bin').write_bytes(pickle.dumps(filename))
+
+
+class ColorPalette:
+    def __init__(self):
+        self._objs = ('bg', 'user_circ', 'reach_circ')
+        self._current_color = 0
+        self._colors = select_colors()
+
+        px.colors[14] = px.colors[1]
+        px.colors[15] = px.colors[7]
+
+    @property
+    def colors(self):
+        return self._colors
+
+    @colors.setter
+    def colors(self, filename: str):
+        self._current_color = 0
+        self._colors = load_user_colors(filename)
+
+    def update(self):
+        for obj in self._objs:
+            exec(f'px.colors[ColorIndexes.{obj}] = self._colors[self._current_color].{obj}')
+        filtered_colors = filter(lambda color: color != self._current_color, range(len(self.colors)))
+        self._current_color = choice(tuple(filtered_colors))

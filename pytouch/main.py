@@ -1,13 +1,10 @@
-from random import choice
-
 import pyxel as px
 
 from elements import Score, Circle, ReachCircle
-from constants import Screen, State, ColorIndexes
-from colors import select_colors, load_user_colors
+from constants import Screen, State
+from colors import ColorPalette
 from settings import Settings
 from menu import Menu
-
 
 
 class Game:
@@ -15,10 +12,7 @@ class Game:
         px.init(Screen.width, Screen.height, quit_key=False)
         px.mouse(True)
 
-        self._init_colors()
-        self.colors = select_colors()
-        self.current_color = 0
-
+        self.color_palette = ColorPalette()
         self.state = State.MENU
         self.menu = Menu()
         self.settings = Settings()
@@ -28,23 +22,12 @@ class Game:
 
         px.run(self._update, self._draw)
 
-    def _init_colors(self):
-        px.colors[14] = px.colors[1]
-        px.colors[15] = px.colors[7]
-
-    def _update_colors(self):
-        objs = ('bg', 'user_circ', 'reach_circ')
-        for obj in objs:
-            exec(f'px.colors[ColorIndexes.{obj}] = self.colors[self.current_color].{obj}')
-        self.current_color = choice(tuple(filter(lambda color: color != self.current_color, range(len(self.colors)))))
-
     def _process_keys(self):
         if px.btnp(px.KEY_ESCAPE):
             match self.state:
                 case State.SETTINGS:
                     filename = self.settings.color_chooser.get_option()
-                    self.current_color = 0
-                    self.colors = load_user_colors(f'{filename}.yaml')
+                    self.color_palette.colors = f'{filename}.yaml'
             self.state = State.MENU
             px.mouse(True)
 
@@ -52,7 +35,7 @@ class Game:
             if self.reach_circ.is_collided_with_circ(self.user_circ):
                 self.score.score += 1
 
-            self._update_colors()
+            self.color_palette.update()
             self.reach_circ.respawn()
             self.user_circ.r = 0
 

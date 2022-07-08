@@ -1,4 +1,4 @@
-from random import randint
+from random import choice, randint
 import itertools
 
 import pyxel as px
