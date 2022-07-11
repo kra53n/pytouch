@@ -1,11 +1,14 @@
 from random import choice, randint
-import itertools
 
 import pyxel as px
 
 from constants import (Screen, GAP_BETWEEN_RADII, SYMBOL_WDT,
                        SYMBOL_HGT, SYMBOL_SPACE, MENU_BUTTONS_PADDING,
                        ColorIndexes)
+
+
+def one_of_keys(*keys):
+    return any(map(lambda key: px.btnp(key), keys))
 
 
 class Text:
@@ -136,13 +139,11 @@ class OptionChooser(Text):
         super().__init__(title, x, y, title_col)
         self.opt_col = opt_col
 
-        self.current_opt: int = 0
+        self.current_opt = 0
         self.opts = opts
-        self.opts_len: int = len(self.opts)
+        self.opts_len = len(self.opts)
 
     def process(self):
-        one_of_keys = lambda *keys: any(map(lambda key: px.btnp(key), keys))
-
         if one_of_keys(px.KEY_UP, px.KEY_W):
             self.current_opt -= 1
             if self.current_opt < 0:
@@ -201,14 +202,18 @@ class ReachCircle(Circle):
         px.circb(self.x, self.y, self.r, self.col)
 
 
+
+def get_y_positions_in_center(text_objs_num: int) -> tuple:
+    padding = MENU_BUTTONS_PADDING + SYMBOL_HGT
+    objs_block = text_objs_num * padding - MENU_BUTTONS_PADDING
+    start_y = (Screen.height - objs_block) // 2
+
+    return tuple(start_y + (i * padding) for i in range(text_objs_num))
+
 def construct_buttons_in_center(button_obj: Button | ButtonWithArrow,
         buttons_names: tuple, bg: int, fg: int) -> dict:
-
-        padding = MENU_BUTTONS_PADDING + SYMBOL_HGT
-        buttons_block = len(buttons_names) * padding - MENU_BUTTONS_PADDING
-        ys = itertools.count((Screen.height - buttons_block) // 2, padding)
-
-        buttons = {}
-        for button, y in zip(buttons_names, ys):
-            buttons[button] = button_obj(button.capitalize(), bg, fg, None, y)
-        return buttons
+    buttons = {}
+    for button, y in zip(buttons_names, get_y_positions_in_center(len(buttons_names))):
+        buttons[button] = button_obj(button.capitalize(), bg, fg, None, y)
+        print(y)
+    return buttons

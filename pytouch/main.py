@@ -25,10 +25,10 @@ class Game:
         px.run(self._update, self._draw)
 
     def _process_keys(self):
-        if px.btnp(px.KEY_ESCAPE):
+        if px.btnp(px.KEY_ESCAPE) and self.settings.state == self.settings.state.NONSELECTED:
             match self.state:
                 case State.SETTINGS:
-                    filename = self.settings.objs['color_chooser'].get_option()
+                    filename = self.settings.color_chooser.get_option()
                     self.color_palette.colors = f'{filename}.yaml'
             self.state = State.MENU
             px.mouse(True)
