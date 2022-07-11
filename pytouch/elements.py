@@ -1,4 +1,4 @@
-from random import choice, randint
+from random import randint
 
 import pyxel as px
 
@@ -44,7 +44,7 @@ class Score:
 
     def draw(self):
         px.text(self._padding_right, self._padding_top,
-                   f"Score: {self.score}", (Screen.bg - 2) % 16)
+                   f"Score: {self.score}", ColorIndexes.reach_circ)
 
 
 class Button:
@@ -202,7 +202,6 @@ class ReachCircle(Circle):
         px.circb(self.x, self.y, self.r, self.col)
 
 
-
 def get_y_positions_in_center(text_objs_num: int) -> tuple:
     padding = MENU_BUTTONS_PADDING + SYMBOL_HGT
     objs_block = text_objs_num * padding - MENU_BUTTONS_PADDING
@@ -210,10 +209,10 @@ def get_y_positions_in_center(text_objs_num: int) -> tuple:
 
     return tuple(start_y + (i * padding) for i in range(text_objs_num))
 
+
 def construct_buttons_in_center(button_obj: Button | ButtonWithArrow,
         buttons_names: tuple, bg: int, fg: int) -> dict:
     buttons = {}
     for button, y in zip(buttons_names, get_y_positions_in_center(len(buttons_names))):
         buttons[button] = button_obj(button.capitalize(), bg, fg, None, y)
-        print(y)
     return buttons

@@ -1,7 +1,6 @@
 from collections import namedtuple
 from typing import Sequence
 from random import choice
-from pathlib import Path
 from os import listdir
 import pickle
 import yaml
@@ -9,6 +8,7 @@ import yaml
 import pyxel as px
 
 from constants import COLORS_PATH, DATA_PATH, ColorIndexes
+from data import load_file
 
 
 ColorsPalette = namedtuple('ColorsPalette', 'bg user_circ reach_circ')
@@ -24,13 +24,6 @@ DEFAULT_COLORS = (
 
 def get_filenames() -> tuple:
     return ('default', *tuple(fn[:-5] for fn in sorted(listdir(COLORS_PATH)) if '.yaml' in fn))
-
-
-def load_filename() -> str:
-    path = DATA_PATH / 'colors.bin'
-    if not path.exists():
-        return ''
-    return pickle.loads(path.read_bytes())
 
 
 def is_filename_exists(filename: str) -> bool:
@@ -55,7 +48,7 @@ def load_user_colors(filename: str) -> Sequence[ColorsPalette]:
 
 
 def select_colors() -> Sequence[ColorsPalette]:
-    filename = load_filename()
+    filename = load_file('colors.bin')
     if is_filename_exists(filename):
         return load_user_colors(filename)
     return DEFAULT_COLORS

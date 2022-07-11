@@ -5,6 +5,7 @@ import pyxel as px
 from elements import OptionChooser, one_of_keys, get_y_positions_in_center
 from colors import get_filenames as get_colors_filenames
 from constants import Screen
+from music import Music
 
 
 class State(Enum):
@@ -13,8 +14,9 @@ class State(Enum):
 
 
 class Settings:
-    def __init__(self):
+    def __init__(self, music: Music):
         self.state = State.NONSELECTED
+        self.music = music
         
         _x = Screen.width // 2 - 30
         _ys = get_y_positions_in_center(3)
@@ -28,6 +30,9 @@ class Settings:
             tuple(f'{round(100 * i / 7)}%' for i in range(8)), _x, _ys[1])
         self.effects_level = OptionChooser('Effects level: ', self._nonselected_obj_col, 13,
             tuple(f'{round(100 * i / 7)}%' for i in range(8)), _x, _ys[2])
+
+        self.sound_level.current_opt = int(self.music.settings['music'])
+        self.effects_level.current_opt = int(self.music.settings['effects'])
 
         self.objs = (self.color_chooser, self.sound_level, self.effects_level)
         self.objs_len = len(self.objs)
@@ -44,7 +49,7 @@ class Settings:
             self.objs[self._selected_obj - 1].col = self._nonselected_obj_col
 
     def process(self):
-        if px.btnp(px.KEY_RETURN):
+        if one_of_keys(px.KEY_RETURN, px.KEY_SPACE):
             self.state = State.SELECTED
         if px.btnp(px.KEY_ESCAPE):
             self.state = State.NONSELECTED
@@ -66,6 +71,9 @@ class Settings:
 
             case State.SELECTED:
                 self.objs[self._selected_obj].process()
+
+    def write_settings(self, filename: str):
+        pass
 
     def draw(self):
         px.cls(14)

@@ -4,6 +4,7 @@ from elements import Score, Circle, ReachCircle
 from constants import Screen, State
 from colors import ColorPalette
 from settings import Settings
+from music import Music
 from menu import Menu
 
 
@@ -11,13 +12,13 @@ class Game:
     def __init__(self):
         px.init(Screen.width, Screen.height, quit_key=False)
         px.load('assets/assets.pyxres')
-        px.play(0, 0, loop=True)
         px.mouse(True)
 
         self.color_palette = ColorPalette()
+        self.music = Music()
         self.state = State.MENU
-        self.menu = Menu()
-        self.settings = Settings()
+        self.settings = Settings(self.music)
+        self.menu = Menu(self.settings)
         self.user_circ = Circle()
         self.reach_circ = ReachCircle()
         self.score = Score()
@@ -30,6 +31,7 @@ class Game:
                 case State.SETTINGS:
                     filename = self.settings.color_chooser.get_option()
                     self.color_palette.colors = f'{filename}.yaml'
+
             self.state = State.MENU
             px.mouse(True)
 
