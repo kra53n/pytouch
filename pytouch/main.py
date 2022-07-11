@@ -10,6 +10,8 @@ from menu import Menu
 class Game:
     def __init__(self):
         px.init(Screen.width, Screen.height, quit_key=False)
+        px.load('assets/assets.pyxres')
+        px.play(0, 0, loop=True)
         px.mouse(True)
 
         self.color_palette = ColorPalette()
