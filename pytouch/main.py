@@ -28,7 +28,7 @@ class Game:
         if px.btnp(px.KEY_ESCAPE):
             match self.state:
                 case State.SETTINGS:
-                    filename = self.settings.color_chooser.get_option()
+                    filename = self.settings.objs['color_chooser'].get_option()
                     self.color_palette.colors = f'{filename}.yaml'
             self.state = State.MENU
             px.mouse(True)
