@@ -1,4 +1,5 @@
 import pickle
+import itertools
 
 import pyxel as px
 
@@ -26,10 +27,15 @@ class Music:
             DATA_PATH.mkdir()
         (DATA_PATH / filename).write_bytes(pickle.dumps(data.update(self.settings)))
 
+    def play(self, user_snd_name):
+        snds = tuple(itertools.chain.from_iterable(i.items() for i in self.sounds.values()))
+        for snd_name, snd_data in snds:
+            if user_snd_name == snd_name:
+                px.play(snd_data['ch'], snd_data['snd'])
+
     def update(self):
         for music_group in self.sounds.values():
             for snd_name, snd in music_group.items():
-                if snd['play']:
-                    px.sound(snd['ch']).set_volumes(str(self.settings[snd_name]))
-                    px.play(snd['ch'], snd['snd'], loop=True)
+                px.sound(snd['ch']).set_volumes(str(self.settings[snd_name]))
+                px.play(snd['ch'], snd['snd'], loop=True)
 

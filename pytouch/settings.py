@@ -17,7 +17,7 @@ def load_data():
     data = load_file('data.bin')
     if isinstance(data, dict):
         return data
-    return {'color_chooser': 0, 'music': '7', 'effects': '7'}
+    return {'color_chooser': 0, 'music': 7, 'effects': 7}
 
 
 class Settings:

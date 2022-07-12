@@ -14,8 +14,6 @@ class Game:
         px.load('assets/assets.pyxres')
         px.mouse(True)
 
-        data = {}
-
         self.state = State.MENU
         self.color_palette = ColorPalette()
         self.music = Music()
@@ -37,9 +35,13 @@ class Game:
             self.state = State.MENU
             px.mouse(True)
 
-        if px.btnp(px.MOUSE_BUTTON_LEFT) or px.btnp(px.KEY_SPACE):
+        if (px.btnp(px.MOUSE_BUTTON_LEFT) or px.btnp(px.KEY_SPACE)) and self.state == State.PLAY:
             if self.reach_circ.is_collided_with_circ(self.user_circ):
                 self.score.score += 1
+                self.music.play('user_reach')
+            else:
+                self.music.play('user_missed')
+
             self.color_palette.update()
             self.reach_circ.respawn()
             self.user_circ.r = 0
