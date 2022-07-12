@@ -54,12 +54,6 @@ def select_colors() -> Sequence[ColorsPalette]:
     return DEFAULT_COLORS
 
 
-def write_user_colors(filename: str):
-    if not DATA_PATH.is_dir():
-        DATA_PATH.mkdir()
-    (DATA_PATH / 'colors.bin').write_bytes(pickle.dumps(filename))
-
-
 class ColorPalette:
     def __init__(self):
         self._objs = ('bg', 'user_circ', 'reach_circ')
