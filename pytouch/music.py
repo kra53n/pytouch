@@ -36,6 +36,7 @@ class Music:
     def update(self):
         for music_group in self.sounds.values():
             for snd_name, snd in music_group.items():
-                px.sound(snd['ch']).set_volumes(str(self.settings[snd_name]))
-                px.play(snd['ch'], snd['snd'], loop=True)
+                if snd_name == 'music':
+                    px.sound(snd['ch']).set_volumes(str(self.settings[snd_name]))
+                    px.play(snd['ch'], snd['snd'], loop=True)
 
