@@ -49,7 +49,10 @@ class Game:
     def _update(self):
         self.menu.update(self)
         self._process_keys()
-        self.user_circ.r += 1
+
+        match self.state:
+            case State.PLAY:
+                self.user_circ.r += 1
 
     def _draw(self):
         match self.state:
