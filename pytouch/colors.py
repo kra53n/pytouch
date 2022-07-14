@@ -75,5 +75,5 @@ class ColorPalette:
     def update(self):
         for obj in self._objs:
             exec(f'px.colors[ColorIndexes.{obj}] = self._colors[self._current_color].{obj}')
-        filtered_colors = filter(lambda color: color != self._current_color, range(len(self.colors)))
-        self._current_color = choice(tuple(filtered_colors))
+        colors_without_current_color = filter(lambda color: color != self._current_color, range(len(self.colors)))
+        self._current_color = choice(tuple(colors_without_current_color))
