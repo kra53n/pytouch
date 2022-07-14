@@ -23,11 +23,6 @@ class Music:
 
         self.update(skip=('effects',))
 
-    def write_settings(self, data: dict, filename: str):
-        if not DATA_PATH.is_dir():
-            DATA_PATH.mkdir()
-        (DATA_PATH / filename).write_bytes(pickle.dumps(data.update(self.settings)))
-
     def play(self, user_snd_name):
         snds = tuple(itertools.chain.from_iterable(i.items() for i in self.sounds.values()))
         for snd_name, snd_data in snds:
