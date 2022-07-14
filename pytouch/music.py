@@ -1,13 +1,12 @@
 import pickle
 import itertools
+from typing import Iterable
 
 import pyxel as px
 
 from constants import DATA_PATH
 from settings import load_data
 
-
-from pprint import pprint
 
 class Music:
     def __init__(self):
@@ -35,7 +34,7 @@ class Music:
             if user_snd_name == snd_name:
                 px.play(snd_data['ch'], snd_data['snd'])
 
-    def update(self, skip):
+    def update(self, skip: Iterable = ()):
         for music_group, music_group_vals in self.sounds.items():
             if music_group in skip:
                 continue
