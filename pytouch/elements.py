@@ -1,4 +1,5 @@
 from random import randint
+from collections import namedtuple
 
 import pyxel as px
 
@@ -9,6 +10,9 @@ from constants import (Screen, GAP_BETWEEN_RADII, SYMBOL_WDT,
 
 def one_of_keys(*keys):
     return any(map(lambda key: px.btnp(key), keys))
+
+
+Point = namedtuple('Point', ['x', 'y'])
 
 
 class Text:
@@ -44,7 +48,34 @@ class Score:
 
     def draw(self):
         px.text(self._padding_right, self._padding_top,
-                   f"Score: {self.score}", ColorIndexes.reach_circ)
+                f"Score: {self.score}", ColorIndexes.reach_circ)
+
+
+class Health:
+    def __init__(self):
+        self.max_health = 3
+        self.health = 3
+        self._hearts = (Point(0, 0), ) * self.max_health
+
+        self._img = 0
+        self._active_heart = Point(0, 0)
+        self._nonactive_heart = Point(8, 0)
+        self._size = 8
+        self._colkey = 0
+
+        self._padding = 2
+        self._health = Point(Screen.width - (self._padding + self._size) * self.max_health, self._padding)
+
+    def is_gameover(self):
+        return self.health < 1
+
+    def draw(self):
+        x = self._health.x
+        for heart in range(self.max_health):
+            img_pos_x = self._active_heart.x if heart < self.health else self._nonactive_heart.x
+            px.blt(x, self._health.y, self._img,
+                   img_pos_x, self._active_heart.y, self._size, self._size, self._colkey)
+            x += self._size + self._padding
 
 
 class Button:

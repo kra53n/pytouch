@@ -30,6 +30,7 @@ class Screen:
 
 
 class State(Enum):
-    MENU = 1
-    PLAY = 2
-    SETTINGS = 3
+    MENU = 'menu'
+    PLAY = 'play'
+    GAMEOVER = 'gameover'
+    SETTINGS = 'settings'
