@@ -65,11 +65,14 @@ class Settings:
             game_obj.music.update()
 
     def update(self, game_obj):
-        if one_of_keys(px.KEY_RETURN, px.KEY_SPACE):
-            self.state = State.SELECTED
-        if px.btnp(px.KEY_ESCAPE):
-            self.state = State.NONSELECTED
-            self._update_sound(game_obj)
+        if one_of_keys(px.KEY_ESCAPE, px.KEY_SPACE, px.KEY_RETURN):
+            if self.state == State.SELECTED:
+                self.state = State.NONSELECTED
+            else:
+                self.state = State.SELECTED
+
+            if self.state == State.NONSELECTED:
+                self._update_sound(game_obj)
 
         match self.state:
             case State.NONSELECTED:
