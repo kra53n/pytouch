@@ -9,8 +9,8 @@ from data import load_file, write_file
 
 
 class State(Enum):
-    NONSELECTED = 0
-    SELECTED = 1
+    NONSELECTED = 'nonselected'
+    SELECTED = 'selected'
 
 
 def load_data():

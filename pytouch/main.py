@@ -52,18 +52,20 @@ class Game:
                     self.state = State.GAMEOVER
 
             case State.GAMEOVER:
-                if px.btnp(px.KEY_ESCAPE):
-                    px.mouse(True)
-                    self.state = State.MENU
                 if one_of_keys(px.KEY_R, px.KEY_RETURN):
                     self._reload_game()
 
-            case State.SETTINGS:
-                if px.btnp(px.KEY_ESCAPE) and self.settings.state == self.settings.state.NONSELECTED:
-                    filename = self.settings.color_chooser.get_option()
-                    self.color_palette.colors = f'{filename}.yaml'
-                    self.state = State.MENU
-                    px.mouse(True)
+        if px.btnp(px.KEY_ESCAPE):
+            flag = self.state != State.SETTINGS
+
+            if not flag and self.settings.state == self.settings.state.NONSELECTED:
+                filename = self.settings.color_chooser.get_option()
+                self.color_palette.colors = f'{filename}.yaml'
+                flag = True
+
+            if flag:
+                self.state = State.MENU
+                px.mouse(True)
 
     def _draw(self):
         match self.state:
