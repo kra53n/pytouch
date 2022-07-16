@@ -15,6 +15,23 @@ def one_of_keys(*keys):
 Point = namedtuple('Point', ['x', 'y'])
 
 
+class Camera:
+    def __init__(self):
+        self._offset = 3
+        self._queue = []
+
+    def update(self):
+        if len(self._queue) and px.frame_count % 20:
+            px.camera(*self._queue.pop(0))
+
+    def shake(self):
+        self._queue = [self._generate_offset_coords() for _ in range(10)]
+
+    def _generate_offset_coords(self):
+        return (randint(-self._offset, self._offset),
+                randint(-self._offset, self._offset))
+
+
 class Text:
     def __init__(self, text, x=None, y=None, col=2):
         self._text = text

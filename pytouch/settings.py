@@ -100,7 +100,6 @@ class Settings:
         settings = tuple(obj.current_opt for obj in self.objs)
         write_file('data.bin', dict(zip(names, settings)))
 
-
     def draw(self):
         px.cls(14)
         for obj in self.objs:

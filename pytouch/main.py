@@ -1,6 +1,6 @@
 import pyxel as px
 
-from elements import Text, Score, Health, Circle, ReachCircle, one_of_keys
+from elements import Text, Score, Health, Circle, ReachCircle, Camera,  one_of_keys
 from constants import Screen, State
 from colors import ColorPalette
 from settings import Settings
@@ -8,6 +8,7 @@ from music import Music
 from menu import Menu
 
 
+from random import randint
 class Game:
     def __init__(self):
         px.init(Screen.width, Screen.height, quit_key=False)
@@ -16,6 +17,7 @@ class Game:
 
         self.state = State.MENU
         self.color_palette = ColorPalette()
+        self.camera = Camera()
         self.music = Music()
         self.menu = Menu()
         self.settings = Settings()
@@ -34,6 +36,7 @@ class Game:
 
     def _update(self):
         self.menu.update(self)
+        self.camera.update()
 
         match self.state:
             case State.PLAY:
@@ -44,6 +47,7 @@ class Game:
                     else:
                         self.health.health -= 1
                         self.music.play('user_missed')
+                        self.camera.shake()
                     self.color_palette.update()
                     self.reach_circ.respawn()
                     self.user_circ.r = 0
