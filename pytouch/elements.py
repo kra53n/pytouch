@@ -25,7 +25,7 @@ class Camera:
             px.camera(*self._queue.pop(0))
 
     def shake(self):
-        self._queue = [self._generate_offset_coords() for _ in range(10)]
+        self._queue = [self._generate_offset_coords() for _ in range(10)] + [(0, 0),]
 
     def _generate_offset_coords(self):
         return (randint(-self._offset, self._offset),
