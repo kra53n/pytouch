@@ -64,7 +64,19 @@ class Settings:
             game_obj.music.settings[names[self._selected_obj-1]] = str(self.objs[self._selected_obj].current_opt)
             game_obj.music.update()
 
-    def update(self, game_obj):
+    def _switch_option(self):
+        if one_of_keys(px.KEY_UP, px.KEY_W):
+            self._selected_obj -= 1
+            if self._selected_obj < 0:
+                self._selected_obj = 0
+
+        if one_of_keys(px.KEY_DOWN, px.KEY_S):
+            self._selected_obj += 1
+            if self._selected_obj >= self.objs_len:
+                self._selected_obj = self.objs_len - 1
+        self._update_colors()
+
+    def _select_option(self, game_obj):
         if one_of_keys(px.KEY_ESCAPE, px.KEY_SPACE, px.KEY_RETURN):
             if self.state == State.SELECTED:
                 self.state = State.NONSELECTED
@@ -74,19 +86,12 @@ class Settings:
             if self.state == State.NONSELECTED:
                 self._update_sound(game_obj)
 
+    def update(self, game_obj):
+        self._select_option(game_obj)
+
         match self.state:
             case State.NONSELECTED:
-                if one_of_keys(px.KEY_UP, px.KEY_W):
-                    self._selected_obj -= 1
-                    if self._selected_obj < 0:
-                        self._selected_obj = 0
-
-                if one_of_keys(px.KEY_DOWN, px.KEY_S):
-                    self._selected_obj += 1
-                    if self._selected_obj >= self.objs_len:
-                        self._selected_obj = self.objs_len - 1
-                self._update_colors()
-
+                self._switch_option()
             case State.SELECTED:
                 self.objs[self._selected_obj].process()
 
