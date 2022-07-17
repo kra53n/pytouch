@@ -22,7 +22,8 @@ class ColorIndexes:
     reach_circ = 3
 
 
-# NOTE: use named tuple
+
+@dataclass
 class Screen:
     width = 192
     height = 108
