@@ -2,7 +2,7 @@
 
 pytouch - Python touch game using Pyxel :video_game: :smile:
 
-<img width=77% src='assets/demonstration.gif'>
+<img width=77% src='https://psv4.vkuseraudio.net/s/v1/d/yuqs86MCo3U6x7FfFFcoUvYE62CGAwd1ibMK7l0Jh_fg15Go_1hPVvGqqVo5Bt5J7x83uG4WvRIaUacaPqBp6PjsDM1BsmX7JbMzP98oBzZaLNcb74xAqA/demonstration.gif'>
 
 #### Features
 
