@@ -148,9 +148,7 @@ class ButtonWithArrow(Button):
     def is_hovered(self):
         x, y = self._text.x, self._text.y
         w, h = self._text.get_wdt(), SYMBOL_HGT
-
         x -= self.frame + 1
-
         return x <= px.mouse_x <= x + w and y <= px.mouse_y <= y + h
 
     def _process_frames(self):
