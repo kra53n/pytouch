@@ -236,7 +236,6 @@ class ReachCircle(Circle):
     def is_collided_with_circ(self, circ: Circle):
         x = abs(self.x - circ.x)
         y = abs(self.y - circ.y)
-
         return self.x - x + self.r <= circ.x - x + circ.r + GAP_BETWEEN_RADII and \
             self.y - y + self.r <= circ.y - y + circ.r + GAP_BETWEEN_RADII and \
             abs(self.r - circ.r) <= GAP_BETWEEN_RADII
@@ -254,7 +253,6 @@ def get_y_positions_in_center(text_objs_num: int) -> tuple:
     padding = MENU_BUTTONS_PADDING + SYMBOL_HGT
     objs_block = text_objs_num * padding - MENU_BUTTONS_PADDING
     start_y = (Screen.height - objs_block) // 2
-
     return tuple(start_y + (i * padding) for i in range(text_objs_num))
 
 
