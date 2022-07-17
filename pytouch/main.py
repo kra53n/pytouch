@@ -1,6 +1,7 @@
 import pyxel as px
 
 from elements import Text, Score, Health, Circle, ReachCircle, Camera,  one_of_keys
+from data import load_data, write_file
 from constants import Screen, State
 from colors import ColorPalette
 from settings import Settings
@@ -8,7 +9,6 @@ from music import Music
 from menu import Menu
 
 
-from random import randint
 class Game:
     def __init__(self):
         px.init(Screen.width, Screen.height, quit_key=False)
@@ -29,6 +29,10 @@ class Game:
         px.run(self._update, self._draw)
 
     def _reload_game(self):
+        data = load_data()
+        data['score'] = max(data['score'], self.score.score)
+        write_file('data.bin', data)
+
         self.score.score = 0
         self.user_circ.r = 0
         self.health.health = self.health.max_health
@@ -83,7 +87,10 @@ class Game:
                 self.user_circ.draw(px.mouse_x, px.mouse_y)
             case State.GAMEOVER:
                 px.cls(Screen.bg)
-                Text(f'Your score: {self.score.score}\nPress R to reload game!').draw()
+                score = load_data()['score']
+                Text(f'Your score: {self.score.score}'
+                     f'\nHighest score: {score}'
+                     f'\nPress R to reload game!', x=30).draw()
             case State.SETTINGS:
                 self.settings.update(self)
                 self.settings.draw()

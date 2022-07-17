@@ -4,20 +4,13 @@ import pyxel as px
 
 from elements import OptionChooser, one_of_keys, get_y_positions_in_center
 from colors import get_filenames as get_colors_filenames
+from data import load_data, write_file
 from constants import Screen
-from data import load_file, write_file
 
 
 class State(Enum):
     NONSELECTED = 'nonselected'
     SELECTED = 'selected'
-
-
-def load_data():
-    data = load_file('data.bin')
-    if isinstance(data, dict):
-        return data
-    return {'color_chooser': 0, 'music': 2, 'effects': 7}
 
 
 class Settings:
