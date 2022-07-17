@@ -52,9 +52,9 @@ class Settings:
             self.objs[self._selected_obj - 1].col = self._nonselected_obj_col
 
     def _update_sound(self, game_obj):
-        names = 'music', 'effects'
+        sound_objs_names = 'music', 'effects'
         if self.objs[self._selected_obj] in self.sound_objs:
-            game_obj.music.settings[names[self._selected_obj-1]] = str(self.objs[self._selected_obj].current_opt)
+            game_obj.music.settings[sound_objs_names[self._selected_obj-1]] = str(self.objs[self._selected_obj].current_opt)
             game_obj.music.update()
 
     def _switch_option(self):
@@ -89,9 +89,9 @@ class Settings:
                 self.objs[self._selected_obj].process()
 
     def write_settings(self):
-        names = 'color_chooser', 'music', 'effects'
+        objs_names = 'color_chooser', 'music', 'effects'
         settings = tuple(obj.current_opt for obj in self.objs)
-        write_file('data.bin', dict(zip(names, settings)))
+        write_file('data.bin', dict(zip(objs_names, settings)))
 
     def draw(self):
         px.cls(14)
