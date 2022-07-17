@@ -22,7 +22,6 @@ class ColorIndexes:
     reach_circ = 3
 
 
-
 @dataclass
 class Screen:
     width = 192
