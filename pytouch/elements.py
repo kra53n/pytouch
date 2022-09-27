@@ -117,7 +117,8 @@ class Button:
     def is_hovered(self):
         x, y = self._text.x, self._text.y
         w, h = self._text.get_wdt(), SYMBOL_HGT
-        return x <= px.mouse_x <= x + w and y <= px.mouse_y <= y + h
+        return all(x <= px.mouse_x <= x + w,
+                   y <= px.mouse_y <= y + h)
 
     def __call__(self):
         self.process()
@@ -149,7 +150,8 @@ class ButtonWithArrow(Button):
         x, y = self._text.x, self._text.y
         w, h = self._text.get_wdt(), SYMBOL_HGT
         x -= self.frame + 1
-        return x <= px.mouse_x <= x + w and y <= px.mouse_y <= y + h
+        return all(x <= px.mouse_x <= x + w,
+                   y <= px.mouse_y <= y + h)
 
     def _process_frames(self):
         if self.is_hovered():
@@ -234,9 +236,9 @@ class ReachCircle(Circle):
     def is_collided_with_circ(self, circ: Circle):
         x = abs(self.x - circ.x)
         y = abs(self.y - circ.y)
-        return self.x - x + self.r <= circ.x - x + circ.r + GAP_BETWEEN_RADII and \
-            self.y - y + self.r <= circ.y - y + circ.r + GAP_BETWEEN_RADII and \
-            abs(self.r - circ.r) <= GAP_BETWEEN_RADII
+        return all(self.x - x + self.r <= circ.x - x + circ.r + GAP_BETWEEN_RADII,
+                   self.y - y + self.r <= circ.y - y + circ.r + GAP_BETWEEN_RADII,
+                   abs(self.r - circ.r) <= GAP_BETWEEN_RADII)
 
     def respawn(self):
         self.x = randint(self.r, Screen.width - self.r)
